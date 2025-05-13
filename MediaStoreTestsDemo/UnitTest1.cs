@@ -53,7 +53,7 @@ namespace MediaStoreTestsDemo
         }
 
         [Test]
-        public void GetAllGenresTest()
+        public void ResponseWasCorrect_When_GetAllGenres()
         {
             // Prepare get all genres request
             var getGenresRequest = new RestRequest("api/Genres/", Method.Get);
@@ -66,7 +66,7 @@ namespace MediaStoreTestsDemo
         }
 
         [Test]
-        public void GetExactGenre()
+        public void CorrectGenreRetrieved_When_GetGenreById()
         {
             // Prepare Request for exact genre
             var genreId = 1;
@@ -81,7 +81,7 @@ namespace MediaStoreTestsDemo
         }
 
         [Test]
-        public void CreateGenreTestLongest()
+        public void GenreCreatedSuccessful_When_SendPostRequest()
         {
             // Get genre with higer id
             var getGenresRequest = new RestRequest("api/Genres/", Method.Get);
@@ -132,7 +132,7 @@ namespace MediaStoreTestsDemo
         }
 
         [Test]
-        public void DeleteGenre()
+        public void GenreDeletedSuccessful_When_SendDeleteRequest()
         {
             var genre = CreateGenre();
 

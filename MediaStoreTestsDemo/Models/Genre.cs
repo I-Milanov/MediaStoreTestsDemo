@@ -1,8 +1,8 @@
-﻿
-namespace MediaStoreTestsDemo
+﻿namespace MediaStoreTestsDemo
 {
-    public class Genre : IEquatable<Genre?>
+    public class Genre : ApiModel, IEquatable<Genre?>
     {
+        [Key]
         public int GenreId { get; set; }
 
         public string Name { get; set; }

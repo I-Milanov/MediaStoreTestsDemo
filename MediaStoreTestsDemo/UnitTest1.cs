@@ -23,7 +23,7 @@ namespace MediaStoreTestsDemo
             var lastId = GetAllGenres().Last().GenreId;
 
             // Create new object Genre with random data and correct id
-            var genre = GenreFactory.BuildFull(lastId);
+            var genre = new GenreFactory().Build(lastId);
 
             // Prepare post request
             var postGenreRequest = new RestRequest($"api/Genres/", Method.Post);
@@ -115,7 +115,7 @@ namespace MediaStoreTestsDemo
             var lastId = GetAllGenres().Last().GenreId;
 
             // Create new object Genre with random data and correct id
-            var genre = GenreFactory.BuildFull(lastId);
+            var genre = new GenreFactory().Build(lastId);
 
             // Prepare post request
             var postGenreRequest = new RestRequest($"api/Genres/", Method.Post);

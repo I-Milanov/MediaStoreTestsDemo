@@ -33,10 +33,14 @@ namespace MediaStoreTestsDemo
 
             Assert.Multiple(() =>
             {
-                Assert.That(HttpStatusCode.OK, Is.EqualTo(postResponse.StatusCode));
-                Assert.AreEqual(HttpStatusCode.OK, postResponse.StatusCode);
+                Assert.AreEqual(HttpStatusCode.Created, postResponse.StatusCode);
                 Assert.AreEqual(entity, postResponse.Data);
             });
+        }
+
+        [Test]
+        public virtual void EntityDeleted_When_SendDeleteRequest()
+        { 
         }
     }
 }

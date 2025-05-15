@@ -2,6 +2,7 @@
 {
     public class MediaType : ApiModel, IEquatable<MediaType?>
     {
+        [Key]
         public int MediaTypeId { get; set; }
 
         public string Name { get; set; }

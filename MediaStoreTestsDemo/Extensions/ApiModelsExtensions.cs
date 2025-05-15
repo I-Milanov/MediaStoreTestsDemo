@@ -27,7 +27,9 @@ namespace MediaStoreTestsDemo.Extensions
                 .FirstOrDefault(p => p.GetCustomAttributes(typeof(KeyAttribute), true).Any());
 
             if (keyProperty == null)
-                return null;
+            { 
+                throw new NotImplementedException($"Key attribute is not set on {typeof(TModel).Name}");
+            }
 
             return keyProperty.GetValue(model);
         }
@@ -38,7 +40,9 @@ namespace MediaStoreTestsDemo.Extensions
             var keyValue = model.GetKey();
 
             if (keyValue == null)
+            {
                 return default;
+            }
 
             try
             {

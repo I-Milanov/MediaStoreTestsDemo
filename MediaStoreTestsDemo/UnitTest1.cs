@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 using MediaStoreTestsDemo.Extensions;
 using RestSharp;
 using RestSharp.Authenticators.OAuth2;
@@ -23,7 +23,7 @@ namespace MediaStoreTestsDemo
             var lastId = GetAllGenres().Last().GenreId;
 
             // Create new object Genre with random data and correct id
-            var genre = GenreFactory.BuildFull(lastId);
+            var genre = new GenreFactory().Build(lastId);
 
             // Prepare post request
             var postGenreRequest = new RestRequest($"api/Genres/", Method.Post);
@@ -53,7 +53,7 @@ namespace MediaStoreTestsDemo
         }
 
         [Test]
-        public void GetAllGenresTest()
+        public void ResponseWasCorrect_When_GetAllGenres()
         {
             // Prepare get all genres request
             var getGenresRequest = new RestRequest("api/Genres/", Method.Get);
@@ -66,7 +66,7 @@ namespace MediaStoreTestsDemo
         }
 
         [Test]
-        public void GetExactGenre()
+        public void CorrectGenreRetrieved_When_GetGenreById()
         {
             // Prepare Request for exact genre
             var genreId = 1;
@@ -74,20 +74,48 @@ namespace MediaStoreTestsDemo
             var getGenreResponse = _restClient.Execute<Genre>(getGenreRequest);
             var getGenreData = getGenreResponse.Data;
 
-            // ????????
+            // Проверки
             Assert.That(1, Is.EqualTo(getGenreData.GenreId));
             Assert.That("Rock", Is.EqualTo(getGenreData.Name));
             Assert.That(HttpStatusCode.OK, Is.EqualTo(getGenreResponse.StatusCode));
         }
 
         [Test]
-        public void CreateGenreTest()
+        public void GenreCreatedSuccessful_When_SendPostRequest()
+        {
+            // Get genre with higer id
+            var getGenresRequest = new RestRequest("api/Genres/", Method.Get);
+            var getGeresResponse = _restClient.Execute<List<Genre>>(getGenresRequest);
+            var lastId = getGeresResponse.Data.Last().GenreId;
+
+            // Create new object Genre with random data and correct id
+            var genre = new Genre();
+            genre.Name = "Random12341251235";
+            genre.GenreId = lastId+1;
+  
+            // Prepare post request
+            var postGenreRequest = new RestRequest($"api/Genres/", Method.Post);
+            // add body
+            postGenreRequest.AddBody(genre);
+
+            // Send Request
+            var postGenreResponse = _restClient.Execute<Genre>(postGenreRequest);
+            var postGenreData = postGenreResponse.Data;
+
+            // Assertions
+            Assert.That(HttpStatusCode.OK, Is.EqualTo(postGenreResponse.StatusCode));
+            Assert.AreEqual(HttpStatusCode.OK, postGenreResponse.StatusCode);
+            Assert.AreEqual(genre, postGenreData);         
+        }
+
+        [Test]
+        public void CreateGenreTestShorter()
         {
             // Get genre with higer id
             var lastId = GetAllGenres().Last().GenreId;
 
             // Create new object Genre with random data and correct id
-            var genre = GenreFactory.BuildFull(lastId);
+            var genre = new GenreFactory().Build(lastId);
 
             // Prepare post request
             var postGenreRequest = new RestRequest($"api/Genres/", Method.Post);
@@ -101,15 +129,10 @@ namespace MediaStoreTestsDemo
             postGenreResponse
                 .AssertResponseStatusSuccessful()
                 .AssertResultEquals(genre);
-
-            // Assertions
-            //Assert.That(1, Is.EqualTo(getGenreData.GenreId));
-            //Assert.That("Rock", Is.EqualTo(getGenreData.Name));
-            //Assert.That(HttpStatusCode.OK, Is.EqualTo(getGenreResponse.StatusCode));
         }
 
         [Test]
-        public void DeleteGenre()
+        public void GenreDeletedSuccessful_When_SendDeleteRequest()
         {
             var genre = CreateGenre();
 
